@@ -1,0 +1,5 @@
+This is the backup script we use on the server. 
+
+The Cron section is unused and may have been removed. I don't know how to mess with it.
+
+Settings are described within the script.
