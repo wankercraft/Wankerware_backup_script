@@ -10,50 +10,50 @@
 #
 #
 #
-#********************VARIABLES********************
+#****************************VARIABLES****************************
 #
-#********************REQUIRES MINECRAFT_OVERVIEWER******************
 #********************MAP MAKING VARIABLES********************
-#This variable defines the directory for your map making program
-MAPPER="/home/dachroni/minecraft/Minecraft_Overviewer/"
-
-#Set to 1 if you want to run the map making portion of the script
+#*************REQUIRES MINECRAFT_OVERVIEWER*************
+#Set to 1 if you want to run the map making portion of the script.
 MAP=1
 
-#Set this variable to the primary folder to output you map to
-MAPDIR="/home/dachroni/public_html/map/"
+#This variable defines the directory for your map making program    example: /home/username/Minecraft_Overviewer/
+MAPPER=
 
-#Set this variable to the primary folder you want the cache files saved to
-MAPCACHE="/home/dachroni/public_html/map/cache/"
+#Set this variable to the directory you want to save your map in.    example: /home/username/web_directory/map/
+MAPDIR=
 
-#Set this variable to your primary world directory
+#Set this variable to the primary folder you want the cache files saved to.    example: /home/username/web_directory/map/cache/
+MAPCACHE=
+
+#Set this variable to your primary world directory.     example: /home/username/minecraft_directory/world/
 WORLD="/home/dachroni/minecraft/wankercraft_bukkit9.0/wankercraft/"
 
-#**********THERE VARIABLES ARE FOR MULTIPLE WORLDS NEEDING MAPS ALSO (YOU CAN USE MAKE AS MANY AS YOU LIKE)*********
+#**********THESE VARIABLES ARE FOR MULTIPLE WORLDS NEEDING MAPS ALSO (YOU CAN MAKE AS MANY AS YOU LIKE)*********
 
-#Set this variable to the secondary folder to output you second world map to
-MAPDIRALT="/home/dachroni/public_html/map2/"
+#Set this variable to the directory you want to use for your second world map.    example: /home/username/web_directory/map2/
+MAPDIRALT=
 
-#Set this variable to the secondary folder you want the second world cache files saved to
-MAPCACHEALT="/home/dachroni/public_html/map2/cache/"
+#Set this variable to the directory you want to use for your second world cache files.    example: /home/username/web_directory/map2/cache/
+MAPCACHEALT=
 
-#Set this variable to your secondary world directory
-WORLDALT="/home/dachroni/minecraft/wankercraft_bukkit9.0/didgeridoo/"
+#Set this variable to your secondary world directory.    example: /home/username/minecraft_directory/world2/
+WORLDALT=
 
 
 #********************SERVER BACKUP VARIABLES********************
 
-#Set to 1 if you want the script to backup the server directory
+#Set to 1 if you want the script to backup the server directory.
 BACKUP=1
 
-#Set this variable to your server directory, default /home/yourusername/minecraft/
-DIRECTORY="/home/dachroni/minecraft/wankercraft_bukkit9.0/"
+#Set this variable to your minecraft server directory. Default /home/username/minecraft_directory/
+DIRECTORY=
 
-#Set this variable to the directory you wish to use for your backups
-BACKUPDIR="/home/dachroni/minecraft/backup/"
+#Set this variable to the directory you wish to use for your backups.    example: /home/username/minecraft_backup/
+BACKUPDIR=
 
 #Tarball Variable
-TAR="tar czf `date +%d-%m-%Y_%H%M%S`.tar.gz /home/dachroni/minecraft/backup/wankercraft_bukkit9.0/"
+TAR="tar czf `date +%d-%m-%Y_%H%M%S`.tar.gz /home/username/backup_directory/minecraft_server_directory/"
 
 #Set to 1 if you want to announce backup progress on the server console
 NOTIFY=1
@@ -61,14 +61,14 @@ NOTIFY=1
 #Set to 1 if you want to save to current world state on the server before compression
 SAVE=1
 
-#Name of the screen session the server is running in
+#Name of the screen session the server is running in. Default is "smp"
 SCREEN="smp"
 
 #********************CRON SCRIPT********************
 
 
 #Set to 1 of you want to add a new entry to your crontab (if allowed)
-#CRON=1
+#CRON=0
 
 #Set for how often to backup in minutes ie.. 60, 120, etc... (Recommend every 6 hours at most. The files can get large.)
 #BACKUPTIME=360
@@ -88,7 +88,7 @@ if [ $SAVE -eq 1 ]
 	then
 		if [ $NOTIFY -eq 1 ] #Announces to server a save is taking place
 			then
-				screen -x $SCREEN -X stuff "`printf "say Backing up World of Wankercraft..\r"`"
+				screen -x $SCREEN -X stuff "`printf "say Backing up server..\r"`"
 				sleep 1
 		fi
 		echo Forcing server save
@@ -123,7 +123,7 @@ if [ $BACKUP -eq 1 ]
 	then
 		if [ $NOTIFY -eq 1 ] #Announces to the server that the server directory is being copied
 			then
-				screen -x $SCREEN -X stuff "`printf "say Copying current Wankercraft directory.\r"`"
+				screen -x $SCREEN -X stuff "`printf "say Copying current server directory.\r"`"
 			sleep 1
 		fi
 fi
@@ -131,15 +131,15 @@ fi
 
 if [ $BACKUP -eq 1 ] #Copies over current minecraft server directory to the backup directory
 	then
-		echo Copying current Wankercraft directory
+		echo Copying current server directory
 			cp -R "$DIRECTORY" "$BACKUPDIR"
-		echo Copying of current Wankercraft directory complete
+		echo Copying of current server directory complete
 fi
 
 
 if [ $NOTIFY -eq 1 ]
 	then
-		screen -x $SCREEN -X stuff "`printf "say Copy of current Wankercraft directory complete.\r"`"
+		screen -x $SCREEN -X stuff "`printf "say Copy of current server directory complete.\r"`"
 		sleep 1
 fi
 
@@ -147,33 +147,35 @@ fi
 
 if [ $NOTIFY -eq 1 ]
 	then
-		screen -x $SCREEN -X stuff "`printf "say Compressing backup Wankercraft directory.\r"`"
+		screen -x $SCREEN -X stuff "`printf "say Compressing backup server directory.\r"`"
 		sleep 1
 fi
 
 
 if [ $BACKUP -eq 1 ]
 	then
-		echo Compressing current Wankercraft directory
+		echo Compressing current server directory
 			$TAR
-		echo Compression of current Wankercraft directory complete
+		echo Compression of current server directory complete
 		sleep 1
 		echo Removing Raw Minecraft directory #THIS PART REMOVES COPIED SERVER DIRECTORY
-		rm -R /home/dachroni/minecraft/backup/wankercraft_bukkit9.0/
+#       THE DIRECTORY BELOW NEEDS TO BE $BACKUPDIR/minecraft_server_directory. That should work. I just use the whole address ie.
+#       /home/username/backup_directory/minecraft_server_directory/ .  This should be cleaner I'm sure. I barely know this stuff atm though.*************
+		rm -R /home/username/backup_directory/minecraft_server_directory/
 		echo Raw directory has been removed
 fi
 
 
 if [ $NOTIFY -eq 1 ]
 	then
-		screen -x $SCREEN -X stuff "`printf "say Compression of backup Wankercraft directory complete.\r"`"
+		screen -x $SCREEN -X stuff "`printf "say Compression of backup server directory complete.\r"`"
 		sleep 1
 fi
 
 
 if [ $NOTIFY -eq 1 ]
 	then
-		screen -x $SCREEN -X stuff "`printf "say World of Wankercraft backup complete.\r"`"
+		screen -x $SCREEN -X stuff "`printf "say Server backup complete.\r"`"
 		sleep 1
 	echo World of Wankercraft backup complete
 fi
@@ -256,7 +258,7 @@ if [ $MAP -eq 1 ]
 		screen -x $SCREEN -X stuff "`printf "say Finished updating the second map. Took long enough.\r"`"
 		sleep 1
 		echo World maps updated
-		echo World of Wankercraft Map has been updated
+		echo Server map has been updated
 	else
 		screen -x $SCREEN -X stuff "`printf "say Map is not being updated this time.\r"`"
 		sleep 1
