@@ -97,11 +97,6 @@ fi
 
 if [ $SAVE -eq 1 ] #Forcing save on the server
 then
-   if [ $NOTIFY -eq 1 ]
-   then
-      screen -x $SCREEN -X stuff "`printf "say Forcing Save..\r"`"
-	  sleep 2
-   fi
    screen -x $SCREEN -X stuff `printf "save-all\r"`
    sleep 2
 fi
@@ -109,24 +104,11 @@ fi
 
 if [ $SAVE -eq 1 ] #Announces to server the save is complete
 	then
-		if [ $NOTIFY -eq 1 ]
-			then
-				screen -x $SCREEN -X stuff "`printf "say Save complete.\r"`"
-		fi
 	echo Server save complete
 fi
 
 
 #THIS SECTION COPIES CURRENT MINCRAFT SERVER DIRECTORY TO THE BACKUP DIRECTORY
-
-if [ $BACKUP -eq 1 ]
-	then
-		if [ $NOTIFY -eq 1 ] #Announces to the server that the server directory is being copied
-			then
-				screen -x $SCREEN -X stuff "`printf "say Copying current server directory.\r"`"
-			sleep 1
-		fi
-fi
 
 
 if [ $BACKUP -eq 1 ] #Copies over current minecraft server directory to the backup directory
@@ -137,19 +119,7 @@ if [ $BACKUP -eq 1 ] #Copies over current minecraft server directory to the back
 fi
 
 
-if [ $NOTIFY -eq 1 ]
-	then
-		screen -x $SCREEN -X stuff "`printf "say Copy of current server directory complete.\r"`"
-		sleep 1
-fi
-
 #THIS SECTION COMPRESSES THE CURRENT BACKUP OF THE MINECRAFT SERVER DIRECTORY INTO TAR.GZ FORMAT
-
-if [ $NOTIFY -eq 1 ]
-	then
-		screen -x $SCREEN -X stuff "`printf "say Compressing backup server directory.\r"`"
-		sleep 1
-fi
 
 
 if [ $BACKUP -eq 1 ]
@@ -163,13 +133,6 @@ if [ $BACKUP -eq 1 ]
 #       /home/username/backup_directory/minecraft_server_directory/ .  This should be cleaner I'm sure. I barely know this stuff atm though.*************
 		rm -R /home/username/backup_directory/minecraft_server_directory/
 		echo Raw directory has been removed
-fi
-
-
-if [ $NOTIFY -eq 1 ]
-	then
-		screen -x $SCREEN -X stuff "`printf "say Compression of backup server directory complete.\r"`"
-		sleep 1
 fi
 
 
