@@ -1,0 +1,17 @@
+#!/bin/sh
+
+
+spawn scp -p "username@domain.tld:remotebackupdirectory" herpderp.tar.gz  #spawn scp session for user@tld in a directory, send 
+                                                                           specified file ie. herpderp.tar.gz
+#####################
+	expect {
+		-re ".*es.*o.*" {
+			exp_send "yes\r"
+			exp_continue
+		}
+		-re ".*sword.*" {
+			exp_send "password\r"
+		}
+	}
+	interact
+#######################################################################################
