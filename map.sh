@@ -1,4 +1,6 @@
 #!/bin/sh
+#Wankerware Map Generation Script v1.3
+#Written by Wankerpants
 #********************MAP MAKING VARIABLES********************
 
 #Set to 1 if you want to run the map making portion of the script *****requires Minecraft_Overviewer 0.9 or later*****
