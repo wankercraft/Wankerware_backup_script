@@ -1,5 +1,6 @@
 #!/bin/sh
-
+#Wankerware Remote Backup Script v.01 (Dev)
+#Written by Wankerpants
 
 spawn scp -p "username@domain.tld:remotebackupdirectory" herpderp.tar.gz  #spawn scp session for user@tld in a directory, send 
                                                                            specified file ie. herpderp.tar.gz
